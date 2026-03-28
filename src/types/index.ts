@@ -3,9 +3,13 @@ export interface Model {
   id: string;
   name: string;
   modelNumber: string;
-  imageUrl: string;
-  voteCount: number;
+  image?: string;
+  imageUrl?: string;
+  voteCount?: number;
+  votes?: number;
   description?: string;
+  category?: string;
+  featured?: boolean;
 }
 
 export interface VotingState {
@@ -14,11 +18,23 @@ export interface VotingState {
   error: string | null;
   isVerified: boolean;
   hasVoted: boolean;
+  phone?: string;
+  sessionToken?: string;
+}
+
+export interface OtpState {
+  phone: string;
+  otp: string;
+  isVerified: boolean;
+  isLoading: boolean;
+  error: string | null;
+  resendTimer: number;
+  sessionToken?: string;
 }
 
 export interface VotePayload {
   modelId: string;
-  userId?: string;
+  sessionToken: string;
   timestamp: number;
 }
 

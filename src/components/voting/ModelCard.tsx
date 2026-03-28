@@ -20,52 +20,59 @@ export function ModelCard({
   isDisabled,
   onVote,
 }: ModelCardProps) {
+  const voteCount = model.votes || model.voteCount || 0;
+
   return (
     <div
       className={cn(
-        'flex flex-col overflow-hidden rounded-xl border-2 transition-all duration-200',
+        'group flex flex-col overflow-hidden rounded-2xl border-2 transition-all duration-300 bg-white dark:bg-muted shadow-sm hover:shadow-xl',
         {
-          'border-blue-500 bg-blue-50 dark:bg-blue-900/20':
+          'border-primary bg-primary-light/10 dark:bg-primary-light/5 ring-2 ring-primary/20':
             isSelected && !isDisabled,
-          'border-gray-200 dark:border-gray-700': !isSelected && !isDisabled,
-          'border-gray-300 opacity-60 dark:border-gray-600':
-            isDisabled,
+          'border-border dark:border-border hover:border-primary/50': !isSelected && !isDisabled,
+          'border-border/50 opacity-50 dark:border-border/30': isDisabled,
         }
       )}
     >
       {/* Image Container */}
-      <div className="relative h-48 w-full overflow-hidden bg-gray-100 dark:bg-gray-800 sm:h-56">
-        <Image
-          src={model.imageUrl}
+      <div className="relative h-56 w-full overflow-hidden bg-muted sm:h-64">
+        <img
+          src={model.image || 'https://images.unsplash.com/photo-1469460340855-fff4a5d92341?w=500&h=600&fit=crop'}
           alt={model.name}
-          fill
-          className="object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           loading="lazy"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
+        {model.featured && (
+          <div className="absolute top-3 right-3 bg-primary text-white px-3 py-1 rounded-full text-xs font-semibold">
+            Featured
+          </div>
+        )}
       </div>
 
       {/* Content Container */}
-      <div className="flex flex-1 flex-col justify-between p-4">
+      <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
         <div>
-          <h3 className="truncate text-lg font-bold text-gray-900 dark:text-white">
+          <h3 className="truncate text-xl font-bold text-foreground">
             {model.name}
           </h3>
-          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Model #{model.modelNumber}
+          <p className="mt-1 text-sm text-foreground/60">
+            {model.modelNumber}
           </p>
-          {model.description && (
-            <p className="mt-2 line-clamp-2 text-sm text-gray-600 dark:text-gray-300">
-              {model.description}
+          {model.category && (
+            <p className="mt-2 text-xs font-medium text-primary">
+              {model.category}
             </p>
           )}
         </div>
 
         {/* Vote Count */}
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-            Votes: <span className="text-blue-600 dark:text-blue-400">{model.voteCount}</span>
-          </span>
+        <div className="mt-6 pt-4 border-t border-border">
+          <div className="flex items-baseline justify-between">
+            <span className="text-xs text-foreground/60 uppercase tracking-wide font-medium">Votes</span>
+            <span className="text-3xl font-bold text-primary">
+              {voteCount.toLocaleString()}
+            </span>
+          </div>
         </div>
 
         {/* Vote Button */}
@@ -74,14 +81,14 @@ export function ModelCard({
           disabled={isDisabled || isLoading}
           isLoading={isLoading && isSelected}
           variant={isSelected && !isDisabled ? 'primary' : 'outline'}
-          size="md"
-          className="mt-4 w-full min-h-11"
+          size="lg"
+          className="mt-6 w-full"
         >
           {isDisabled
             ? 'Verify to Vote'
             : isLoading && isSelected
-              ? 'Voting...'
-              : 'Vote'}
+              ? 'Submitting...'
+              : 'Cast Vote'}
         </Button>
       </div>
     </div>

@@ -20,28 +20,54 @@ export function VoteConfirmationModal({
 }: VoteConfirmationModalProps) {
   if (!model) return null;
 
+  const voteCount = model.votes || model.voteCount || 0;
+
   return (
     <Modal
       isOpen={isOpen}
       title="Confirm Your Vote"
-      description={`Are you sure you want to vote for ${model.name}?`}
+      description={`Cast your vote for ${model.name}?`}
       cancelLabel="Cancel"
-      confirmLabel="Vote"
+      confirmLabel="Cast Vote"
       isLoading={isLoading}
       onConfirm={onConfirm}
       onCancel={onCancel}
       variant="confirm"
     >
-      <div className="rounded-lg bg-gray-50 p-4 dark:bg-gray-800">
-        <p className="text-sm text-gray-700 dark:text-gray-300">
-          Model: <span className="font-semibold">{model.name}</span>
-        </p>
-        <p className="mt-2 text-sm text-gray-700 dark:text-gray-300">
-          Number: <span className="font-semibold">#{model.modelNumber}</span>
-        </p>
-        <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-          Your vote will be recorded and cannot be changed.
-        </p>
+      <div className="space-y-5">
+        {/* Model Preview */}
+        {model.image && (
+          <div className="rounded-xl overflow-hidden h-48">
+            <img
+              src={model.image}
+              alt={model.name}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        {/* Model Info */}
+        <div className="space-y-3">
+          <div>
+            <p className="text-sm text-foreground/60 font-medium">Model Name</p>
+            <p className="text-lg font-semibold text-foreground">{model.name}</p>
+          </div>
+          <div>
+            <p className="text-sm text-foreground/60 font-medium">Model Number</p>
+            <p className="text-base font-semibold text-foreground">{model.modelNumber}</p>
+          </div>
+          <div>
+            <p className="text-sm text-foreground/60 font-medium">Current Votes</p>
+            <p className="text-2xl font-bold text-primary">{voteCount.toLocaleString()}</p>
+          </div>
+        </div>
+
+        {/* Warning */}
+        <div className="rounded-lg bg-primary-light/20 border border-primary/30 p-3">
+          <p className="text-xs text-foreground font-medium">
+            Your vote will be recorded and cannot be changed.
+          </p>
+        </div>
       </div>
     </Modal>
   );
