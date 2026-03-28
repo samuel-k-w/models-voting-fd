@@ -2,30 +2,98 @@
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
+import { ModelFormModal } from '@/components/admin/ModelFormModal';
 import { useVotingStore } from '@/store/votingStore';
 import { MOCK_MODELS } from '@/utils/mockData';
+import { Model } from '@/types';
 
 export default function ModelsPage() {
   const { models, setModels } = useVotingStore();
-  const [editingId, setEditingId] = useState<string | null>(null);
+  const [displayModels, setDisplayModels] = useState<Model[]>(MOCK_MODELS);
+  const [editingModel, setEditingModel] = useState<Model | null>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     if (models.length === 0) {
-      setModels(MOCK_MODELS);
+      setDisplayModels(MOCK_MODELS);
+    } else {
+      setDisplayModels(models);
     }
-  }, []);
+  }, [models]);
 
-  const displayModels = models.length > 0 ? models : MOCK_MODELS;
+  const handleAddModel = (modelData: Omit<Model, 'id'> & { id?: string }) => {
+    const newModel: Model = {
+      id: modelData.id || `model-${Date.now()}`,
+      name: modelData.name,
+      modelNumber: modelData.modelNumber,
+      image: modelData.image,
+      category: modelData.category,
+      featured: modelData.featured,
+      votes: 0,
+      voteCount: 0,
+    };
+
+    if (editingModel) {
+      setDisplayModels(displayModels.map(m => (m.id === editingModel.id ? newModel : m)));
+      setSuccessMessage(`Model "${newModel.name}" updated successfully`);
+    } else {
+      setDisplayModels([...displayModels, newModel]);
+      setSuccessMessage(`Model "${newModel.name}" created successfully`);
+    }
+
+    setModels(displayModels);
+    setEditingModel(null);
+    setIsFormOpen(false);
+
+    setTimeout(() => setSuccessMessage(''), 3000);
+  };
+
+  const handleDeleteModel = (id: string) => {
+    if (confirm('Are you sure you want to delete this model? This action cannot be undone.')) {
+      const deletedModel = displayModels.find(m => m.id === id);
+      setDisplayModels(displayModels.filter(m => m.id !== id));
+      setModels(displayModels.filter(m => m.id !== id));
+      if (deletedModel) {
+        setSuccessMessage(`Model "${deletedModel.name}" deleted successfully`);
+        setTimeout(() => setSuccessMessage(''), 3000);
+      }
+    }
+  };
+
+  const handleEditModel = (model: Model) => {
+    setEditingModel(model);
+    setIsFormOpen(true);
+  };
+
+  const handleCloseForm = () => {
+    setEditingModel(null);
+    setIsFormOpen(false);
+  };
 
   return (
     <div className="space-y-6">
+      {/* Success Message */}
+      {successMessage && (
+        <div className="rounded-lg bg-success/10 border border-success px-4 py-3 text-sm font-medium text-success">
+          {successMessage}
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Models Management</h1>
           <p className="text-foreground/60 mt-1">Add, edit, and manage models</p>
         </div>
-        <Button variant="primary" size="lg">
+        <Button
+          variant="primary"
+          size="lg"
+          onClick={() => {
+            setEditingModel(null);
+            setIsFormOpen(true);
+          }}
+        >
           Add Model
         </Button>
       </div>
@@ -80,10 +148,16 @@ export default function ModelsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button className="px-3 py-1 text-xs font-medium text-primary hover:bg-primary-light rounded transition-colors">
+                      <button
+                        onClick={() => handleEditModel(model)}
+                        className="px-3 py-1 text-xs font-medium text-primary hover:bg-primary-light rounded transition-colors"
+                      >
                         Edit
                       </button>
-                      <button className="px-3 py-1 text-xs font-medium text-error hover:bg-error/10 rounded transition-colors">
+                      <button
+                        onClick={() => handleDeleteModel(model.id)}
+                        className="px-3 py-1 text-xs font-medium text-error hover:bg-error/10 rounded transition-colors"
+                      >
                         Delete
                       </button>
                     </div>
@@ -107,6 +181,14 @@ export default function ModelsPage() {
           value={displayModels.filter(m => m.featured).length}
         />
       </div>
+
+      {/* Modal */}
+      <ModelFormModal
+        isOpen={isFormOpen}
+        onClose={handleCloseForm}
+        onSubmit={handleAddModel}
+        editingModel={editingModel}
+      />
     </div>
   );
 }

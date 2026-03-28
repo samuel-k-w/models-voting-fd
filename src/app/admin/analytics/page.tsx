@@ -4,6 +4,46 @@ import { useLeaderboardStore } from '@/store/leaderboardStore';
 import { useVotingStore } from '@/store/votingStore';
 import { useEffect } from 'react';
 import { MOCK_MODELS } from '@/utils/mockData';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts';
+
+// Color palette for pie chart
+const pieColors = [
+  'var(--color-primary)',
+  '#d9a574',
+  '#6b9c71',
+  '#a78bc9',
+  '#f4c4b8',
+];
+
+// Hourly activity data
+const hourlyData = [
+  { hour: '00:00', votes: 35 },
+  { hour: '01:00', votes: 42 },
+  { hour: '02:00', votes: 28 },
+  { hour: '03:00', votes: 55 },
+  { hour: '04:00', votes: 48 },
+  { hour: '05:00', votes: 61 },
+  { hour: '06:00', votes: 52 },
+  { hour: '07:00', votes: 67 },
+  { hour: '08:00', votes: 45 },
+  { hour: '09:00', votes: 58 },
+  { hour: '10:00', votes: 73 },
+  { hour: '11:00', votes: 68 },
+];
 
 export default function AnalyticsPage() {
   const { entries, setEntries } = useLeaderboardStore();
@@ -113,27 +153,90 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Hourly Activity */}
+      {/* Charts Grid */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Hourly Activity Line Chart */}
+        <div className="bg-white dark:bg-muted rounded-xl border border-border p-6">
+          <h2 className="text-lg font-bold text-foreground mb-4">Hourly Activity Trend</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={hourlyData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+              <XAxis dataKey="hour" stroke="var(--color-foreground)" />
+              <YAxis stroke="var(--color-foreground)" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'var(--color-background)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                }}
+                labelStyle={{ color: 'var(--color-foreground)' }}
+              />
+              <Line
+                type="monotone"
+                dataKey="votes"
+                stroke="var(--color-primary)"
+                strokeWidth={2}
+                dot={{ fill: 'var(--color-primary)', r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Top Models Bar Chart */}
+        <div className="bg-white dark:bg-muted rounded-xl border border-border p-6">
+          <h2 className="text-lg font-bold text-foreground mb-4">Top Models Performance</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={displayEntries.slice(0, 5)}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+              <XAxis dataKey="name" stroke="var(--color-foreground)" angle={-45} textAnchor="end" height={80} />
+              <YAxis stroke="var(--color-foreground)" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'var(--color-background)',
+                  border: '1px solid var(--color-border)',
+                  borderRadius: '8px',
+                }}
+                labelStyle={{ color: 'var(--color-foreground)' }}
+              />
+              <Bar dataKey="votes" fill="var(--color-primary)" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Vote Distribution Pie Chart */}
       <div className="bg-white dark:bg-muted rounded-xl border border-border p-6">
-        <h2 className="text-lg font-bold text-foreground mb-4">Hourly Activity</h2>
-        <div className="flex items-end justify-between h-40 gap-2">
-          {[35, 42, 28, 55, 48, 61, 52, 67, 45, 58, 73, 68].map((value, idx) => (
-            <div
-              key={idx}
-              className="flex-1 bg-gradient-to-t from-primary to-primary-light rounded-t-lg transition-all duration-500 hover:opacity-80 relative group"
-              style={{ height: `${(value / 73) * 100}%` }}
+        <h2 className="text-lg font-bold text-foreground mb-4">Vote Distribution by Model</h2>
+        <ResponsiveContainer width="100%" height={400}>
+          <PieChart>
+            <Pie
+              data={displayEntries.map(e => ({
+                name: e.name,
+                value: e.votes || e.voteCount || 0,
+              }))}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={({ name, value, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+              outerRadius={120}
+              fill="var(--color-primary)"
+              dataKey="value"
             >
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-foreground text-background px-2 py-1 rounded text-xs font-bold whitespace-nowrap">
-                {value}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-between mt-2 text-xs text-foreground/60">
-          <span>00:00</span>
-          <span>12:00</span>
-          <span>23:00</span>
-        </div>
+              {displayEntries.map((_, index) => (
+                <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'var(--color-background)',
+                border: '1px solid var(--color-border)',
+                borderRadius: '8px',
+              }}
+              labelStyle={{ color: 'var(--color-foreground)' }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
 
       {/* Detailed Breakdown */}
