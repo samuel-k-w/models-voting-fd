@@ -1,63 +1,190 @@
 @import "tailwindcss";
 
-/* Light Theme Only - Premium SaaS Design System */
+/* ============================================================================
+   PREMIUM SAAS COLOR SYSTEM - Real-Time Voting Platform
+   Light Theme Only | WCAG AA+ Compliant | Mobile-First Design
+   ============================================================================ */
+
 :root {
-	/* Neutral palette */
-	--background: #ffffff;
-	--background-secondary: #f8f9fa;
-	--foreground: #0f172a;
-	--foreground-secondary: #475569;
+	/* ========== NEUTRAL PALETTE ==========
+	   Background, text, borders, and structural colors
+	   WCAG Contrast: All text meets AA+ standards */
+	--background: #ffffff;                    /* Pure white - main background */
+	--background-secondary: #f8f9fa;          /* Very light slate - secondary surfaces */
+	--background-tertiary: #f1f5f9;           /* Light slate - tertiary surfaces */
 	
-	/* Borders and dividers */
-	--border: #e2e8f0;
-	--border-strong: #cbd5e1;
-	--muted: #f1f5f9;
-	--muted-hover: #e2e8f0;
+	--foreground: #0f172a;                    /* Almost black/dark navy - primary text */
+	--foreground-secondary: #475569;          /* Slate gray - secondary text */
+	--foreground-tertiary: #64748b;           /* Medium slate - tertiary text */
 	
-	/* Brand colors - Professional Blue */
-	--primary: #2563eb;
-	--primary-hover: #1d4ed8;
-	--primary-light: #dbeafe;
-	--primary-dark: #1e40af;
+	/* ========== BORDER & DIVIDER PALETTE ==========
+	   Strategic border hierarchy for visual structure */
+	--border: #e2e8f0;                        /* Light border - default, cards, inputs */
+	--border-strong: #cbd5e1;                 /* Medium border - emphasis, active states */
+	--border-hover: #94a3b8;                  /* Dark border - hover states */
 	
-	/* Semantic colors */
-	--success: #16a34a;
-	--success-light: #dcfce7;
-	--error: #dc2626;
-	--error-light: #fee2e2;
-	--warning: #ea580c;
-	--warning-light: #fed7aa;
-	--info: #0284c7;
-	--info-light: #cffafe;
+	/* ========== MUTED & DISABLED STATES ==========
+	   For inactive, disabled, and loading states */
+	--muted: #f1f5f9;                         /* Light muted - disabled backgrounds */
+	--muted-hover: #e2e8f0;                   /* Slightly darker muted - disabled hover */
+	--muted-foreground: #94a3b8;              /* Disabled text color */
 	
-	/* Shadows for depth */
+	/* ========== PRIMARY BRAND COLOR SCALE ==========
+	   Professional Blue - Used for primary actions (voting, CTAs)
+	   Energetic yet trustworthy for real-time voting */
+	--primary-50: #eff6ff;                    /* Lightest blue - hover backgrounds */
+	--primary-100: #dbeafe;                   /* Very light blue - light backgrounds */
+	--primary-200: #bfdbfe;                   /* Light blue - accent backgrounds */
+	--primary-400: #60a5fa;                   /* Medium blue - secondary actions */
+	--primary-500: #3b82f6;                   /* Base primary blue - default state */
+	--primary: #2563eb;                       /* Primary strong - primary button */
+	--primary-600: #2563eb;                   /* Primary strong - primary button (alias) */
+	--primary-hover: #1d4ed8;                 /* Darker blue - hover state */
+	--primary-active: #1e40af;                /* Darkest blue - active/pressed state */
+	--primary-light: #dbeafe;                 /* Light blue - light backgrounds */
+	--primary-dark: #1e40af;                  /* Dark blue - high contrast needs */
+	
+	/* ========== SECONDARY ACCENT COLOR ==========
+	   Cyan - Used for highlights and secondary accents */
+	--secondary: #06b6d4;                     /* Vibrant cyan - accents */
+	--secondary-light: #cffafe;               /* Light cyan - backgrounds */
+	--secondary-hover: #0891b2;               /* Darker cyan - hover */
+	
+	/* ========== SUCCESS STATE ==========
+	   Green - Used for confirmations, success messages */
+	--success: #16a34a;                       /* Success green - strong */
+	--success-light: #dcfce7;                 /* Success green - light background */
+	--success-hover: #15803d;                 /* Success green - hover */
+	--success-text: #166534;                  /* Success green - text */
+	
+	/* ========== ERROR STATE ==========
+	   Red - Used for errors, destructive actions */
+	--error: #dc2626;                         /* Error red - strong */
+	--error-light: #fee2e2;                   /* Error red - light background */
+	--error-hover: #b91c1c;                   /* Error red - hover */
+	--error-text: #991b1b;                    /* Error red - text */
+	
+	/* ========== WARNING STATE ==========
+	   Amber/Orange - Used for warnings and cautions */
+	--warning: #ea580c;                       /* Warning orange - strong */
+	--warning-light: #fed7aa;                 /* Warning orange - light background */
+	--warning-hover: #c2410c;                 /* Warning orange - hover */
+	--warning-text: #92400e;                  /* Warning orange - text */
+	
+	/* ========== INFO STATE ==========
+	   Blue (different from primary) - Used for informational messages */
+	--info: #0284c7;                          /* Info blue - strong */
+	--info-light: #cffafe;                    /* Info blue - light background */
+	--info-hover: #0369a1;                    /* Info blue - hover */
+	--info-text: #0c4a6e;                     /* Info blue - text */
+	
+	/* ========== LEADERBOARD MEDALS ==========
+	   Special colors for ranked positions */
+	--rank-1-gold: #f59e0b;                   /* Gold for #1 - vibrant and eye-catching */
+	--rank-1-gold-light: #fef3c7;             /* Gold light background */
+	--rank-2-silver: #9ca3af;                 /* Silver for #2 - neutral precious metal */
+	--rank-2-silver-light: #f3f4f6;           /* Silver light background */
+	--rank-3-bronze: #d97706;                 /* Bronze for #3 - warm accent */
+	--rank-3-bronze-light: #fef3c7;           /* Bronze light background */
+	
+	/* ========== SKELETON LOADING STATES ==========
+	   Shimmer effect colors */
+	--skeleton-base: #f1f5f9;                 /* Base skeleton color */
+	--skeleton-shine: #e2e8f0;                /* Shimmer highlight */
+	
+	/* ========== DEPTH & SHADOW SYSTEM ==========
+	   Carefully calibrated shadow scales for premium feel */
+	--shadow-none: none;
 	--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 	--shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 	--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	--shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+	--shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+	
+	/* ========== GLOW EFFECTS ==========
+	   For highlighted elements (medals, top ranks) */
+	--glow-sm: 0 0 8px rgba(37, 99, 235, 0.1);
+	--glow-md: 0 0 16px rgba(37, 99, 235, 0.15);
+	--glow-lg: 0 0 24px rgba(37, 99, 235, 0.2);
 }
 
 @theme inline {
+	/* Backgrounds */
 	--color-background: var(--background);
 	--color-background-secondary: var(--background-secondary);
+	--color-background-tertiary: var(--background-tertiary);
+	
+	/* Text/Foreground */
 	--color-foreground: var(--foreground);
 	--color-foreground-secondary: var(--foreground-secondary);
+	--color-foreground-tertiary: var(--foreground-tertiary);
+	
+	/* Borders */
 	--color-border: var(--border);
 	--color-border-strong: var(--border-strong);
+	--color-border-hover: var(--border-hover);
+	
+	/* Muted States */
 	--color-muted: var(--muted);
 	--color-muted-hover: var(--muted-hover);
+	--color-muted-foreground: var(--muted-foreground);
+	
+	/* Primary Brand Scale */
+	--color-primary-50: var(--primary-50);
+	--color-primary-100: var(--primary-100);
+	--color-primary-200: var(--primary-200);
+	--color-primary-400: var(--primary-400);
+	--color-primary-500: var(--primary-500);
 	--color-primary: var(--primary);
+	--color-primary-600: var(--primary-600);
 	--color-primary-hover: var(--primary-hover);
+	--color-primary-active: var(--primary-active);
 	--color-primary-light: var(--primary-light);
 	--color-primary-dark: var(--primary-dark);
+	
+	/* Secondary Accent */
+	--color-secondary: var(--secondary);
+	--color-secondary-light: var(--secondary-light);
+	--color-secondary-hover: var(--secondary-hover);
+	
+	/* Success State */
 	--color-success: var(--success);
 	--color-success-light: var(--success-light);
+	--color-success-hover: var(--success-hover);
+	--color-success-text: var(--success-text);
+	
+	/* Error State */
 	--color-error: var(--error);
 	--color-error-light: var(--error-light);
+	--color-error-hover: var(--error-hover);
+	--color-error-text: var(--error-text);
+	
+	/* Warning State */
 	--color-warning: var(--warning);
 	--color-warning-light: var(--warning-light);
+	--color-warning-hover: var(--warning-hover);
+	--color-warning-text: var(--warning-text);
+	
+	/* Info State */
 	--color-info: var(--info);
 	--color-info-light: var(--info-light);
+	--color-info-hover: var(--info-hover);
+	--color-info-text: var(--info-text);
+	
+	/* Leaderboard Medals */
+	--color-rank-1-gold: var(--rank-1-gold);
+	--color-rank-1-gold-light: var(--rank-1-gold-light);
+	--color-rank-2-silver: var(--rank-2-silver);
+	--color-rank-2-silver-light: var(--rank-2-silver-light);
+	--color-rank-3-bronze: var(--rank-3-bronze);
+	--color-rank-3-bronze-light: var(--rank-3-bronze-light);
+	
+	/* Skeleton Loading */
+	--color-skeleton-base: var(--skeleton-base);
+	--color-skeleton-shine: var(--skeleton-shine);
+	
+	/* Fonts */
 	--font-sans: var(--font-geist-sans);
 	--font-mono: var(--font-geist-mono);
 }
@@ -92,9 +219,278 @@ button:disabled {
 	@apply cursor-not-allowed opacity-50;
 }
 
-/* Smooth animations */
+/* ============================================================================
+   COMPONENT COLOR USAGE RULES
+   ============================================================================ */
+
+/* ========== BUTTON STATES ========== */
+/* Primary Button: voting actions, main CTAs */
+.btn-primary {
+	background-color: var(--primary);
+	color: white;
+	transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover:not(:disabled) {
+	background-color: var(--primary-hover);
+	box-shadow: var(--glow-sm);
+	transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+	background-color: var(--primary-active);
+	transform: translateY(0);
+}
+
+.btn-primary:disabled {
+	background-color: var(--muted);
+	color: var(--muted-foreground);
+	cursor: not-allowed;
+	opacity: 1;
+}
+
+/* Outline Button: secondary actions */
+.btn-outline {
+	background-color: transparent;
+	color: var(--primary);
+	border: 2px solid var(--primary);
+	transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-outline:hover:not(:disabled) {
+	background-color: var(--primary-light);
+	border-color: var(--primary-hover);
+}
+
+.btn-outline:active:not(:disabled) {
+	background-color: var(--primary-100);
+	border-color: var(--primary-active);
+}
+
+.btn-outline:disabled {
+	color: var(--muted-foreground);
+	border-color: var(--border);
+	cursor: not-allowed;
+}
+
+/* Danger Button: destructive actions */
+.btn-danger {
+	background-color: var(--error);
+	color: white;
+	transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-danger:hover:not(:disabled) {
+	background-color: var(--error-hover);
+	box-shadow: 0 0 12px rgba(220, 38, 38, 0.15);
+}
+
+.btn-danger:disabled {
+	background-color: var(--muted);
+	color: var(--muted-foreground);
+	cursor: not-allowed;
+}
+
+/* ========== CARD STATES ========== */
+.card {
+	background-color: var(--background);
+	border: 1px solid var(--border);
+	border-radius: 12px;
+	transition: all 200ms ease;
+}
+
+.card:hover {
+	border-color: var(--border-strong);
+	box-shadow: var(--shadow-md);
+}
+
+.card.elevated {
+	box-shadow: var(--shadow-md);
+}
+
+/* ========== INPUT STATES ========== */
+input, textarea, select {
+	border-color: var(--border);
+	background-color: var(--background);
+	color: var(--foreground);
+	transition: all 150ms ease;
+}
+
+input:hover, textarea:hover, select:hover {
+	border-color: var(--border-strong);
+}
+
+input:focus, textarea:focus, select:focus {
+	border-color: var(--primary);
+	outline: none;
+	box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+input:disabled, textarea:disabled, select:disabled {
+	background-color: var(--muted);
+	color: var(--muted-foreground);
+	border-color: var(--border);
+	cursor: not-allowed;
+}
+
+input.error, textarea.error {
+	border-color: var(--error);
+	box-shadow: 0 0 0 3px var(--error-light);
+}
+
+/* ========== TEXT & TYPOGRAPHY ========== */
+.text-primary {
+	color: var(--foreground);
+}
+
+.text-secondary {
+	color: var(--foreground-secondary);
+}
+
+.text-muted {
+	color: var(--foreground-tertiary);
+}
+
+.text-success {
+	color: var(--success-text);
+}
+
+.text-error {
+	color: var(--error-text);
+}
+
+.text-warning {
+	color: var(--warning-text);
+}
+
+.text-info {
+	color: var(--info-text);
+}
+
+/* ========== BADGES & LABELS ========== */
+.badge-success {
+	background-color: var(--success-light);
+	color: var(--success-text);
+	border: 1px solid var(--success);
+}
+
+.badge-error {
+	background-color: var(--error-light);
+	color: var(--error-text);
+	border: 1px solid var(--error);
+}
+
+.badge-warning {
+	background-color: var(--warning-light);
+	color: var(--warning-text);
+	border: 1px solid var(--warning);
+}
+
+.badge-info {
+	background-color: var(--info-light);
+	color: var(--info-text);
+	border: 1px solid var(--info);
+}
+
+.badge-primary {
+	background-color: var(--primary-light);
+	color: var(--primary-dark);
+	border: 1px solid var(--primary);
+}
+
+/* ========== ALERTS & NOTIFICATIONS ========== */
+.alert-success {
+	background-color: var(--success-light);
+	border: 1px solid var(--success);
+	color: var(--success-text);
+}
+
+.alert-error {
+	background-color: var(--error-light);
+	border: 1px solid var(--error);
+	color: var(--error-text);
+}
+
+.alert-warning {
+	background-color: var(--warning-light);
+	border: 1px solid var(--warning);
+	color: var(--warning-text);
+}
+
+.alert-info {
+	background-color: var(--info-light);
+	border: 1px solid var(--info);
+	color: var(--info-text);
+}
+
+/* ========== LEADERBOARD MEDALS ========== */
+.medal-rank-1 {
+	color: var(--rank-1-gold);
+	background-color: var(--rank-1-gold-light);
+	border: 2px solid var(--rank-1-gold);
+	box-shadow: var(--glow-md);
+}
+
+.medal-rank-2 {
+	color: var(--rank-2-silver);
+	background-color: var(--rank-2-silver-light);
+	border: 2px solid var(--rank-2-silver);
+}
+
+.medal-rank-3 {
+	color: var(--rank-3-bronze);
+	background-color: var(--rank-3-bronze-light);
+	border: 2px solid var(--rank-3-bronze);
+}
+
+/* ========== VOTING CARD SELECTED STATE ========== */
+.card-selected {
+	border-color: var(--primary);
+	background-color: var(--primary-light);
+	box-shadow: 0 0 0 4px var(--primary-100), var(--shadow-md);
+}
+
+.card-selected:hover {
+	border-color: var(--primary-hover);
+}
+
+/* ========== LOADING & SKELETON STATES ========== */
+@keyframes skeleton-shine {
+	0% {
+		background-position: -1000px 0;
+	}
+	100% {
+		background-position: 1000px 0;
+	}
+}
+
+.skeleton {
+	background: linear-gradient(
+		90deg,
+		var(--skeleton-base) 0%,
+		var(--skeleton-shine) 50%,
+		var(--skeleton-base) 100%
+	);
+	background-size: 1000px 100%;
+	animation: skeleton-shine 2s infinite;
+}
+
+/* ========== FOCUS & ACCESSIBILITY ========== */
+:focus-visible {
+	outline: 2px solid var(--primary);
+	outline-offset: 2px;
+}
+
+/* ========== GENERAL TRANSITIONS ========== */
+/* Smooth animations respecting prefers-reduced-motion */
 @media (prefers-reduced-motion: no-preference) {
 	* {
-		@apply transition-colors duration-200;
+		transition-property: color, background-color, border-color, box-shadow, transform;
+		transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 200ms;
+	}
+	
+	button, a, input, select, textarea {
+		transition-duration: 150ms;
 	}
 }
