@@ -1,52 +1,88 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { Button } from '@/components/ui/Button';
 
 export default function Home() {
 	return (
-		<div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-			<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-				<ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-					<li className="mb-2 tracking-[-.01em]">
-						Get started by editing{" "}
-						<code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-							src/app/page.tsx
-						</code>
-						.
-					</li>
-					<li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-				</ol>
+		<main className="min-h-screen bg-gradient-to-br from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+			<div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+				{/* Header */}
+				<div className="text-center">
+					<h1 className="text-balance text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
+						Real-Time Voting Platform
+					</h1>
+					<p className="mt-6 text-lg text-gray-600 dark:text-gray-400">
+						Cast your vote for your favorite model in our secure, real-time voting system with live leaderboards and instant results.
+					</p>
+				</div>
 
-				<div className="flex gap-4 items-center flex-col sm:flex-row">
-					<a
-						className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Read our docs
+				{/* Features Grid */}
+				<div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+					<FeatureCard
+						title="Secure Voting"
+						description="OTP verification ensures each vote is authentic and secure"
+					/>
+					<FeatureCard
+						title="Real-Time Updates"
+						description="Watch vote counts update instantly across all devices via WebSocket"
+					/>
+					<FeatureCard
+						title="Live Leaderboard"
+						description="See the top models ranked by votes in real-time"
+					/>
+					<FeatureCard
+						title="Mobile Optimized"
+						description="Seamless voting experience on any device or screen size"
+					/>
+					<FeatureCard
+						title="Admin Dashboard"
+						description="Manage models, monitor voting activity, and generate reports"
+					/>
+					<FeatureCard
+						title="Judge Panel"
+						description="Specialized interface for judges and event organizers"
+					/>
+				</div>
+
+				{/* CTA */}
+				<div className="mt-16 flex justify-center gap-4">
+					<Link href="/voting">
+						<Button variant="primary" size="lg" className="text-base">
+							Start Voting
+						</Button>
+					</Link>
+					<a href="https://github.com/samuel-k-w/models-voting-fd" target="_blank" rel="noopener noreferrer">
+						<Button variant="outline" size="lg" className="text-base">
+							View Source
+						</Button>
 					</a>
 				</div>
-			</main>
-			<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-					Learn
-				</a>
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-					Go to nextjs.org →
-				</a>
-			</footer>
+
+				{/* Footer */}
+				<div className="mt-24 border-t border-gray-200 pt-12 text-center dark:border-gray-800">
+					<p className="text-sm text-gray-600 dark:text-gray-400">
+						Real-Time Voting Platform • Built with Next.js, TypeScript & Tailwind CSS
+					</p>
+				</div>
+			</div>
+		</main>
+	);
+}
+
+function FeatureCard({
+	title,
+	description,
+}: {
+	title: string;
+	description: string;
+}) {
+	return (
+		<div className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800/50">
+			<h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+				{title}
+			</h3>
+			<p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+				{description}
+			</p>
 		</div>
 	);
 }
